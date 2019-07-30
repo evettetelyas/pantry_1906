@@ -19,7 +19,7 @@ class Recipe
   end
 
   def total_calories
-
+    @ingredients.inject(0) {|tot_cal, ingredient| tot_cal + (ingredient[0].calories * ingredient[1])}
   end
 
 end
