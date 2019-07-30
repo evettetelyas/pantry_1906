@@ -12,13 +12,26 @@ class Cookbook
   def summary
     hash = Hash.new({})
     @recipes.each do |recipe|
-      hash= Hash.new
-      hash[:name] = recipe.name
-      hash[:details] = Hash.new({})
-      hash[:details][:ingredients] = "ingredients go here?"
-      hash[:details][:total_calories] = recipe.total_calories
-      binding.pry
+      hash[recipe] = Hash.new({})
+      hash[recipe][:name] = recipe.name
+      hash[recipe][:details] = Hash.new({})
+      hash[recipe][:details][:ingredients] = ingredient_deets(recipe)
+      hash[recipe][:details][:total_calories] = recipe.total_calories
     end
+    hash.values
+  end
+
+  #ingredients are listed in order of calories. This is the amount of calories that ingredient contributes to the total calories of the recipe, not the amount of calories per single unit of the ingredient.
+
+  def ingredient_deets(recipe)
+    hash = Hash.new({})
+    sorted = recipe.ingredients.sort_by {|ingredient, qty| ingredient.calories * qty}.reverse
+    sorted.each do |ingredient, qty|
+      hash[ingredient] = Hash.new
+      hash[ingredient][:ingredient] = ingredient.name
+      hash[ingredient][:amount] = qty.to_s + " " + ingredient.unit
+    end
+    hash.values
   end
 
 end
