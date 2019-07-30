@@ -21,11 +21,9 @@ class Cookbook
     hash.values
   end
 
-  #ingredients are listed in order of calories. This is the amount of calories that ingredient contributes to the total calories of the recipe, not the amount of calories per single unit of the ingredient.
-
   def ingredient_deets(recipe)
     hash = Hash.new({})
-    sorted = recipe.ingredients.sort_by {|ingredient, qty| ingredient.calories * qty}.reverse
+    sorted = recipe.ingredients_required.sort_by {|ingredient, qty| ingredient.calories * qty}.reverse
     sorted.each do |ingredient, qty|
       hash[ingredient] = Hash.new
       hash[ingredient][:ingredient] = ingredient.name
